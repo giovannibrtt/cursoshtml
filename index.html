@@ -53,7 +53,13 @@
       background: linear-gradient(180deg, #e0f7fa, #ffffff);
       color: #4b4b4b;
     }
-    h1, h2 {
+    h1 {
+      text-align: center;
+      color: #5dade2;
+      font-size: 2.8rem;
+      margin-bottom: 1.5rem;
+    }
+    h2 {
       text-align: center;
       color: #5dade2;
       font-size: 2.2rem;
@@ -126,7 +132,7 @@
     <label><input type="radio" name="presenca" value="sim" required> Siim, estarei lá</label>
     <label><input type="radio" name="presenca" value="nao"> Não poderei ir!!</label>
 
-    <label>Escolha o tamanho da Fralda 🫶🏻:</label>
+    <label>Escolha o tamanho da Fralda 🤍:</label>
     <div id="fraldas">
       <div class="fralda-opcao" onclick="selecionarFralda(this,'P')">• Fralda P <span class="contador" id="cont-P">(0/18)</span></div>
       <div class="fralda-opcao" onclick="selecionarFralda(this,'M')">• Fralda M <span class="contador" id="cont-M">(0/18)</span></div>
@@ -134,7 +140,7 @@
       <div class="fralda-opcao" onclick="selecionarFralda(this,'XG')">• Fralda XG <span class="contador" id="cont-XG">(0/18)</span></div>
     </div>
     <input type="hidden" id="fraldaSelecionada" name="fralda">
-    <label for="recado">Deixe um recadinho para o Henry 🫶🏻🩵:</label>
+    <label for="recado">Deixe um recadinho para o Henry 💌👶:</label>
     <textarea id="recado" name="recado" rows="4"></textarea>
     <button type="submit">Enviar</button>
   </form>
