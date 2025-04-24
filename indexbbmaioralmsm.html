@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chá do Henry 🩵</title>
+  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Quicksand', sans-serif;
+      padding: 2rem;
+      max-width: 600px;
+      margin: auto;
+      background: linear-gradient(180deg, #e0f7fa, #ffffff);
+      color: #4b4b4b;
+    }
+    h1 {
+      text-align: center;
+      color: #5dade2;
+      font-size: 2.2rem;
+      margin-bottom: 1.5rem;
+    }
+    form {
+      background: #ffffff;
+      border-radius: 1rem;
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+      padding: 2rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      border: 2px dashed #b3e5fc;
+    }
+    label {
+      font-weight: 600;
+      margin-bottom: 0.3rem;
+      color: #0077b6;
+    }
+    input[type="text"], textarea {
+      padding: 0.6rem;
+      border: 1px solid #b2ebf2;
+      border-radius: 0.5rem;
+      width: 100%;
+      box-sizing: border-box;
+      background-color: #f1fafe;
+    }
+    .fralda-opcao {
+      padding: 0.5rem 1rem;
+      background-color: #d6f5fc;
+      border: 1px solid #81d4fa;
+      border-radius: 1rem;
+      margin: 0.3rem 0;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+    .fralda-opcao:hover { background-color: #b3e5fc; }
+    .selecionado { background-color: #81d4fa; font-weight: bold; }
+    .riscado { text-decoration: line-through; color: gray; background-color: #f3f4f6; cursor: not-allowed; }
+    .contador { font-size: 0.9rem; color: #555; margin-left: 0.5rem; }
+    button {
+      padding: 0.8rem;
+      font-size: 1rem;
+      background-color: #5dade2;
+      color: white;
+      border: none;
+      border-radius: 1rem;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+    button:hover { background-color: #3498db; }
+    .decoracao { text-align: center; font-size: 2rem; margin-bottom: 1rem; }
+  </style>
+</head>
+<body>
+  <div class="decoracao">🧸🍼💙</div>
+  <h1>Chá do Henry 🩵</h1>
+  <form id="formulario">
+    <label for="nome">Seu nome!?</label>
+    <input type="text" id="nome" name="nome" required>
+
+    <label>Poderá comparecer no chá do Henry??:</label>
+    <label><input type="radio" name="presenca" value="sim" required> Siim, estarei lá</label>
+    <label><input type="radio" name="presenca" value="nao"> Não poderei ir!!</label>
+
+    <label>Escolha o tamanho da Fralda 🫶🏻:</label>
+    <div id="fraldas">
+      <div class="fralda-opcao" onclick="selecionarFralda(this,'P')">• Fralda P <span class="contador" id="cont-P">(0/18)</span></div>
+      <div class="fralda-opcao" onclick="selecionarFralda(this,'M')">• Fralda M <span class="contador" id="cont-M">(0/18)</span></div>
+      <div class="fralda-opcao" onclick="selecionarFralda(this,'G')">• Fralda G <span class="contador" id="cont-G">(0/18)</span></div>
+      <div class="fralda-opcao" onclick="selecionarFralda(this,'XG')">• Fralda XG <span class="contador" id="cont-XG">(0/18)</span></div>
+    </div>
+    <input type="hidden" id="fraldaSelecionada" name="fralda">
+    <label for="recado">Deixe um recadinho para o Henry 🫶🏻🩵:</label>
+    <textarea id="recado" name="recado" rows="4"></textarea>
+    <button type="submit">Enviar</button>
+  </form>
+  <script>
+    const limites={P:18,M:18,G:18,XG:18},contagem={P:0,M:0,G:0,XG:0};
+    function atualizarContadores(){for(let t in contagem)document.getElementById('cont-'+t).innerText=`(${contagem[t]}/${limites[t]})`;}
+    function selecionarFralda(el,t){if(contagem[t]>=limites[t])return;document.querySelectorAll('.fralda-opcao').forEach(x=>x.classList.remove('selecionado'));el.classList.add('selecionado');document.getElementById('fraldaSelecionada').value=t;}
+    const url="https://script.google.com/macros/s/AKfycbzWCJnny7bHRHgUE5_OqIJycIMO1e63j_gyGtq4ZYq4jVkqJZU-1HykqhyzKchAq63ezw/exec";
+    document.getElementById('formulario').addEventListener('submit',e=>{e.preventDefault();const f=document.getElementById('fraldaSelecionada').value;if(!f||contagem[f]>=limites[f]){alert('Selecione um tamanho válido.');return;}contagem[f]++;atualizarContadores();if(contagem[f]>=limites[f])document.querySelectorAll('.fralda-opcao').forEach(x=>x.textContent.includes(f)&&x.classList.add('riscado'));
+      const data=new FormData(e.target),params=new URLSearchParams();data.forEach((v,k)=>params.append(k,v));
+      fetch(url,{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:params})
+        .then(r=>r.text()).then(_=>{alert('Resposta enviada!');e.target.reset();document.getElementById('fraldaSelecionada').value='';})
+        .catch(err=>alert('Erro ao enviar: '+err));
+    });atualizarContadores();
+  </script>
+</body>
+</html>
