@@ -206,9 +206,12 @@ function carregarContagemServidor() {
 function selecionarFralda(el, t) {
   // Se não for "NAO_VAI", checa o limite
   if (t !== 'NAO_VAI' && contagem[t] >= limites[t]) return;
-  
+
+  // limpa seleção anterior e marca essa
   document.querySelectorAll('.fralda-opcao').forEach(x => x.classList.remove('selecionado'));
   el.classList.add('selecionado');
+
+  // guarda a escolha no hidden
   document.getElementById('fraldaSelecionada').value = t;
 }
 
@@ -224,51 +227,7 @@ document.getElementById('formulario').addEventListener('submit', e => {
     return;
   }
 
-  // Atualiza a contagem e o contador
-  contagem[fraldaSelecionada]++;
-  atualizarContadores();
-
-  // Caso o limite da fralda seja atingido, risca a opção
-  if (contagem[fraldaSelecionada] >= limites[fraldaSelecionada]) {
-    document.querySelectorAll('.fralda-opcao').forEach(x => {
-      if (x.textContent.includes(fraldaSelecionada)) {
-        x.classList.add('riscado');
-      }
-    });
-  }
-
   // Envia os dados para o Google Apps Script
-  const formData = new FormData(e.target);
-  const params = new URLSearchParams();
-  formData.forEach((value, key) => params.append(key, value));
-
-  fetch(urlEnvio, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-    body: params
-  })
-    .then(response => response.text())
-    .then(() => {
-      alert('Resposta enviada! Muito obrigado 💙');
-      e.target.reset();
-      document.getElementById('fraldaSelecionada').value = '';
-      document.querySelectorAll('.fralda-opcao').forEach(x => x.classList.remove('selecionado'));
-    })
-    .catch(error => alert('Erro ao enviar: ' + error));
-});
-
-  
-  contagem[fraldaSelecionada]++;
-  atualizarContadores();
-  
-  if (contagem[fraldaSelecionada] >= limites[fraldaSelecionada]) {
-    document.querySelectorAll('.fralda-opcao').forEach(x => {
-      if (x.textContent.includes(fraldaSelecionada)) {
-        x.classList.add('riscado');
-      }
-    });
-  }
-
   const formData = new FormData(e.target);
   const params = new URLSearchParams();
   formData.forEach((value, key) => params.append(key, value));
