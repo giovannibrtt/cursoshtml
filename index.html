@@ -170,7 +170,9 @@ function atualizarContadores() {
 
 // Carrega as contagens atuais do servidor
 function carregarContagemServidor() {
-  fetch(urlContagem)
+  const timestamp = new Date().getTime(); // Garante que cada requisição seja única
+
+  fetch(urlContagem + `?t=${timestamp}`) // Adiciona o timestamp como parâmetro
     .then(response => response.json())
     .then(data => {
       for (let t in data) {
