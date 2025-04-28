@@ -175,6 +175,7 @@ function carregarContagemServidor() {
   fetch(urlContagem + `?t=${timestamp}`) // Adiciona o timestamp como parâmetro
     .then(response => response.json())
     .then(data => {
+      console.log("Contagem recebida do servidor:", data); // Verifica o que veio do servidor
       for (let t in data) {
         contagem[t] = Number(data[t]) || 0;
       }
@@ -182,6 +183,7 @@ function carregarContagemServidor() {
     })
     .catch(error => console.error('Erro ao buscar contagem:', error));
 }
+
 
 // Função para selecionar a fralda
 function selecionarFralda(el, t) {
