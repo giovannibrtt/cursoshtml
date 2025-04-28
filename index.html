@@ -144,11 +144,17 @@
     <textarea id="recado" name="recado" rows="4"></textarea>
     <button type="submit">Enviar</button>
   </form>
-  <script>
-    const limites = { P: 12, M: 25, G: 28, XG: 6 };
+ <script>
+const limites = { P: 12, M: 25, G: 28, XG: 6 };
 let contagem = { P: 0, M: 0, G: 0, XG: 0 };
-const url = "https://script.google.com/macros/s/AKfycbzSgSBZrMqsYZzz8_ZDIKealYYKJ7z6rpAVXKdaNTmUDKd7GdfUuu-96aREfp3MUQNuOQ/exec";
 
+// URL para buscar as contagens da planilha
+const urlContagem = "https://script.google.com/macros/s/AKfycbzSgSBZrMqsYZzz8_ZDIKealYYKJ7z6rpAVXKdaNTmUDKd7GdfUuu-96aREfp3MUQNuOQ/exec";
+
+// URL para enviar o formulário
+const urlEnvio = "https://script.google.com/macros/s/AKfycbyrojBugsnFITc-e4sFWkzJR08liEqWUWjMynoCGswfYyUL-QkOFMA5vhw96meo77x8/exec";
+
+// Atualiza os contadores de fraldas na tela
 function atualizarContadores() {
   for (let t in contagem) {
     document.getElementById('cont-' + t).innerText = `(${contagem[t]}/${limites[t]})`;
@@ -162,12 +168,11 @@ function atualizarContadores() {
   }
 }
 
-// NOVO: Buscar contagem real da planilha
+// Carrega as contagens atuais do servidor
 function carregarContagemServidor() {
-  fetch(url)
+  fetch(urlContagem)
     .then(response => response.json())
     .then(data => {
-      // Força os valores para serem números
       for (let t in data) {
         contagem[t] = Number(data[t]) || 0;
       }
@@ -176,33 +181,82 @@ function carregarContagemServidor() {
     .catch(error => console.error('Erro ao buscar contagem:', error));
 }
 
+// Função para selecionar a fralda
+function selecionarFralda(el, t) {
+  if (contagem[t] >= limites[t]) return;
+  document.querySelectorAll('.fralda-opcao').forEach(x => x.classList.remove('selecionado'));
+  el.classList.add('selecionado');
+  document.getElementById('fraldaSelecionada').value = t;
+}
 
-carregarContagemServidor();
-    function selecionarFralda(el,t){if(contagem[t]>=limites[t])return;document.querySelectorAll('.fralda-opcao').forEach(x=>x.classList.remove('selecionado'));el.classList.add('selecionado');document.getElementById('fraldaSelecionada').value=t;}
-    const url="https://script.google.com/macros/s/AKfycbyrojBugsnFITc-e4sFWkzJR08liEqWUWjMynoCGswfYyUL-QkOFMA5vhw96meo77x8/exec";
-    document.getElementById('formulario').addEventListener('submit',e=>{e.preventDefault();const f=document.getElementById('fraldaSelecionada').value;if(!f||contagem[f]>=limites[f]){alert('Selecione um tamanho válido.');return;}contagem[f]++;atualizarContadores();if(contagem[f]>=limites[f])document.querySelectorAll('.fralda-opcao').forEach(x=>x.textContent.includes(f)&&x.classList.add('riscado'));
-      const data=new FormData(e.target),params=new URLSearchParams();data.forEach((v,k)=>params.append(k,v));
-      fetch(url,{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:params})
-        .then(r=>r.text()).then(_=>{alert('Resposta enviada!');e.target.reset();document.getElementById('fraldaSelecionada').value='';})
-        .catch(err=>alert('Erro ao enviar: '+err));
-    });atualizarContadores();
-    const dataEvento = new Date('2025-06-08T00:00:00');  // Ajuste para a data do seu evento
-  const contador = document.getElementById('contador');
-
-  function atualizarContagem() {
-    const agora = new Date();
-    const tempoRestante = dataEvento - agora;
-
-    const dias = Math.floor(tempoRestante / (1000 * 60 * 60 * 24));
-    const horas = Math.floor((tempoRestante % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-    const minutos = Math.floor((tempoRestante % (1000 * 60 * 60)) / (1000 * 60));
-    const segundos = Math.floor((tempoRestante % (1000 * 60)) / 1000);
-
-    contador.innerHTML = `Faltam ${dias}d ${horas}h ${minutos}m ${segundos}s para o chá do Henry!`;
+// Quando o formulário for enviado
+document.getElementById('formulario').addEventListener('submit', e => {
+  e.preventDefault();
+  
+  const fraldaSelecionada = document.getElementById('fraldaSelecionada').value;
+  
+  if (!fraldaSelecionada || contagem[fraldaSelecionada] >= limites[fraldaSelecionada]) {
+    alert('Selecione um tamanho válido.');
+    return;
+  }
+  
+  contagem[fraldaSelecionada]++;
+  atualizarContadores();
+  
+  if (contagem[fraldaSelecionada] >= limites[fraldaSelecionada]) {
+    document.querySelectorAll('.fralda-opcao').forEach(x => {
+      if (x.textContent.includes(fraldaSelecionada)) {
+        x.classList.add('riscado');
+      }
+    });
   }
 
-  setInterval(atualizarContagem, 1000);
-  atualizarContagem(); // Inicia imediatamente
-  </script>
+  const formData = new FormData(e.target);
+  const params = new URLSearchParams();
+  formData.forEach((value, key) => params.append(key, value));
+
+  fetch(urlEnvio, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+    body: params
+  })
+    .then(response => response.text())
+    .then(() => {
+      alert('Resposta enviada! Muito obrigado 💙');
+      e.target.reset();
+      document.getElementById('fraldaSelecionada').value = '';
+      document.querySelectorAll('.fralda-opcao').forEach(x => x.classList.remove('selecionado'));
+    })
+    .catch(error => alert('Erro ao enviar: ' + error));
+});
+
+// Contador de tempo para o evento
+const dataEvento = new Date('2025-06-08T00:00:00');
+const contador = document.getElementById('contador');
+
+function atualizarContagemEvento() {
+  const agora = new Date();
+  const tempoRestante = dataEvento - agora;
+
+  if (tempoRestante <= 0) {
+    contador.innerHTML = "É hoje! 🎉🍼";
+    contador.classList.add('saturado');
+    return;
+  }
+
+  const dias = Math.floor(tempoRestante / (1000 * 60 * 60 * 24));
+  const horas = Math.floor((tempoRestante % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+  const minutos = Math.floor((tempoRestante % (1000 * 60 * 60)) / (1000 * 60));
+  const segundos = Math.floor((tempoRestante % (1000 * 60)) / 1000);
+
+  contador.innerHTML = `Faltam ${dias}d ${horas}h ${minutos}m ${segundos}s para o chá do Henry!`;
+}
+
+// Inicializações
+carregarContagemServidor();
+atualizarContadores();
+setInterval(atualizarContagemEvento, 1000);
+atualizarContagemEvento();
+</script>
 </body>
 </html>
