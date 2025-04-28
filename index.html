@@ -167,11 +167,15 @@ function carregarContagemServidor() {
   fetch(url)
     .then(response => response.json())
     .then(data => {
-      contagem = data;
+      // Força os valores para serem números
+      for (let t in data) {
+        contagem[t] = Number(data[t]) || 0;
+      }
       atualizarContadores();
     })
     .catch(error => console.error('Erro ao buscar contagem:', error));
 }
+
 
 carregarContagemServidor();
     function selecionarFralda(el,t){if(contagem[t]>=limites[t])return;document.querySelectorAll('.fralda-opcao').forEach(x=>x.classList.remove('selecionado'));el.classList.add('selecionado');document.getElementById('fraldaSelecionada').value=t;}
