@@ -145,8 +145,35 @@
     <button type="submit">Enviar</button>
   </form>
   <script>
-    const limites={P:12,M:25,G:28,XG:6},contagem={P:0,M:0,G:0,XG:0};
-    function atualizarContadores(){for(let t in contagem)document.getElementById('cont-'+t).innerText=`(${contagem[t]}/${limites[t]})`;}
+    const limites = { P: 12, M: 25, G: 28, XG: 6 };
+let contagem = { P: 0, M: 0, G: 0, XG: 0 };
+const url = "https://script.google.com/macros/s/AKfycbzSgSBZrMqsYZzz8_ZDIKealYYKJ7z6rpAVXKdaNTmUDKd7GdfUuu-96aREfp3MUQNuOQ/exec";
+
+function atualizarContadores() {
+  for (let t in contagem) {
+    document.getElementById('cont-' + t).innerText = `(${contagem[t]}/${limites[t]})`;
+    if (contagem[t] >= limites[t]) {
+      document.querySelectorAll('.fralda-opcao').forEach(x => {
+        if (x.textContent.includes(t)) {
+          x.classList.add('riscado');
+        }
+      });
+    }
+  }
+}
+
+// NOVO: Buscar contagem real da planilha
+function carregarContagemServidor() {
+  fetch(url)
+    .then(response => response.json())
+    .then(data => {
+      contagem = data;
+      atualizarContadores();
+    })
+    .catch(error => console.error('Erro ao buscar contagem:', error));
+}
+
+carregarContagemServidor();
     function selecionarFralda(el,t){if(contagem[t]>=limites[t])return;document.querySelectorAll('.fralda-opcao').forEach(x=>x.classList.remove('selecionado'));el.classList.add('selecionado');document.getElementById('fraldaSelecionada').value=t;}
     const url="https://script.google.com/macros/s/AKfycbzSgSBZrMqsYZzz8_ZDIKealYYKJ7z6rpAVXKdaNTmUDKd7GdfUuu-96aREfp3MUQNuOQ/exec";
     document.getElementById('formulario').addEventListener('submit',e=>{e.preventDefault();const f=document.getElementById('fraldaSelecionada').value;if(!f||contagem[f]>=limites[f]){alert('Selecione um tamanho válido.');return;}contagem[f]++;atualizarContadores();if(contagem[f]>=limites[f])document.querySelectorAll('.fralda-opcao').forEach(x=>x.textContent.includes(f)&&x.classList.add('riscado'));
