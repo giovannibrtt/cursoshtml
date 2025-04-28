@@ -175,7 +175,7 @@ function carregarContagemServidor() {
 
 carregarContagemServidor();
     function selecionarFralda(el,t){if(contagem[t]>=limites[t])return;document.querySelectorAll('.fralda-opcao').forEach(x=>x.classList.remove('selecionado'));el.classList.add('selecionado');document.getElementById('fraldaSelecionada').value=t;}
-    const url="https://script.google.com/macros/s/AKfycbzSgSBZrMqsYZzz8_ZDIKealYYKJ7z6rpAVXKdaNTmUDKd7GdfUuu-96aREfp3MUQNuOQ/exec";
+    const url="https://script.google.com/macros/s/AKfycbyrojBugsnFITc-e4sFWkzJR08liEqWUWjMynoCGswfYyUL-QkOFMA5vhw96meo77x8/exec";
     document.getElementById('formulario').addEventListener('submit',e=>{e.preventDefault();const f=document.getElementById('fraldaSelecionada').value;if(!f||contagem[f]>=limites[f]){alert('Selecione um tamanho válido.');return;}contagem[f]++;atualizarContadores();if(contagem[f]>=limites[f])document.querySelectorAll('.fralda-opcao').forEach(x=>x.textContent.includes(f)&&x.classList.add('riscado'));
       const data=new FormData(e.target),params=new URLSearchParams();data.forEach((v,k)=>params.append(k,v));
       fetch(url,{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:params})
