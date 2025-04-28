@@ -218,10 +218,45 @@ document.getElementById('formulario').addEventListener('submit', e => {
   
   const fraldaSelecionada = document.getElementById('fraldaSelecionada').value;
   
- if (!fraldaSelecionada || (fraldaSelecionada !== 'NAO_VAI' && contagem[fraldaSelecionada] >= limites[fraldaSelecionada])) {
-  alert('Selecione um tamanho válido.');
-  return;
+  // Permite "NAO_VAI" passar sem checar limite
+  if (!fraldaSelecionada || (fraldaSelecionada !== 'NAO_VAI' && contagem[fraldaSelecionada] >= limites[fraldaSelecionada])) {
+    alert('Selecione um tamanho válido.');
+    return;
   }
+
+  // Atualiza a contagem e o contador
+  contagem[fraldaSelecionada]++;
+  atualizarContadores();
+
+  // Caso o limite da fralda seja atingido, risca a opção
+  if (contagem[fraldaSelecionada] >= limites[fraldaSelecionada]) {
+    document.querySelectorAll('.fralda-opcao').forEach(x => {
+      if (x.textContent.includes(fraldaSelecionada)) {
+        x.classList.add('riscado');
+      }
+    });
+  }
+
+  // Envia os dados para o Google Apps Script
+  const formData = new FormData(e.target);
+  const params = new URLSearchParams();
+  formData.forEach((value, key) => params.append(key, value));
+
+  fetch(urlEnvio, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+    body: params
+  })
+    .then(response => response.text())
+    .then(() => {
+      alert('Resposta enviada! Muito obrigado 💙');
+      e.target.reset();
+      document.getElementById('fraldaSelecionada').value = '';
+      document.querySelectorAll('.fralda-opcao').forEach(x => x.classList.remove('selecionado'));
+    })
+    .catch(error => alert('Erro ao enviar: ' + error));
+});
+
   
   contagem[fraldaSelecionada]++;
   atualizarContadores();
