@@ -6,6 +6,11 @@
   <title>Chá do Henry 🩵</title>
   <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600&display=swap" rel="stylesheet">
   <style>
+    .opcao-ausente {
+  background-color: #ccc;
+  color: #333;
+  font-style: italic;
+}
     #contador {
   font-size: 2rem;
   font-weight: bold;
@@ -138,6 +143,7 @@
       <div class="fralda-opcao" onclick="selecionarFralda(this,'M')">• Fralda M <span class="contador" id="cont-M">(0/18)</span></div>
       <div class="fralda-opcao" onclick="selecionarFralda(this,'G')">• Fralda G <span class="contador" id="cont-G">(0/18)</span></div>
       <div class="fralda-opcao" onclick="selecionarFralda(this,'XG')">• Fralda XG <span class="contador" id="cont-XG">(0/18)</span></div>
+      <div class="fralda-opcao opcao-ausente" onclick="selecionarFralda(this, 'NAO_VAI')">Não irei poder ir</div>
     </div>
     <input type="hidden" id="fraldaSelecionada" name="fralda">
     <label for="recado">Deixe um recadinho para o Henry 💌👶:</label>
@@ -149,10 +155,10 @@ const limites = { P: 12, M: 25, G: 28, XG: 6 };
 let contagem = { P: 0, M: 0, G: 0, XG: 0 };
 
 // URL para buscar as contagens da planilha
-const urlContagem = "https://script.google.com/macros/s/AKfycbyrojBugsnFITc-e4sFWkzJR08liEqWUWjMynoCGswfYyUL-QkOFMA5vhw96meo77x8/exec";
+const urlContagem = "https://script.google.com/macros/s/AKfycbxXWiXvEdfreSW0n9Y485H7vByQMU43QMK7PxTtlYyzN1fXEXbJl5vb1ToOJDaUBsKi/exec";
 
 // URL para enviar o formulário
-const urlEnvio = "https://script.google.com/macros/s/AKfycbyrojBugsnFITc-e4sFWkzJR08liEqWUWjMynoCGswfYyUL-QkOFMA5vhw96meo77x8/exec";
+const urlEnvio = "https://script.google.com/macros/s/AKfycbxXWiXvEdfreSW0n9Y485H7vByQMU43QMK7PxTtlYyzN1fXEXbJl5vb1ToOJDaUBsKi/exec";
 
 // Atualiza os contadores de fraldas na tela
 function atualizarContadores() {
@@ -198,7 +204,9 @@ function carregarContagemServidor() {
 
 // Função para selecionar a fralda
 function selecionarFralda(el, t) {
-  if (contagem[t] >= limites[t]) return;
+  // Se não for "NAO_VAI", checa o limite
+  if (t !== 'NAO_VAI' && contagem[t] >= limites[t]) return;
+  
   document.querySelectorAll('.fralda-opcao').forEach(x => x.classList.remove('selecionado'));
   el.classList.add('selecionado');
   document.getElementById('fraldaSelecionada').value = t;
@@ -210,9 +218,9 @@ document.getElementById('formulario').addEventListener('submit', e => {
   
   const fraldaSelecionada = document.getElementById('fraldaSelecionada').value;
   
-  if (!fraldaSelecionada || contagem[fraldaSelecionada] >= limites[fraldaSelecionada]) {
-    alert('Selecione um tamanho válido.');
-    return;
+ if (!fraldaSelecionada || (fraldaSelecionada !== 'NAO_VAI' && contagem[fraldaSelecionada] >= limites[fraldaSelecionada])) {
+  alert('Selecione um tamanho válido.');
+  return;
   }
   
   contagem[fraldaSelecionada]++;
