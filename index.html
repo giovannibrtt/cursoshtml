@@ -154,6 +154,24 @@
     <button type="submit">Enviar</button>
   </form>
  <script>
+   window.addEventListener('load', function() {
+  const musica = document.getElementById('musicaFundo');
+  
+  // Criar uma interação do usuário com a página para permitir a música
+  const playButton = document.createElement('button');
+  playButton.innerText = "Clique para ouvir a música!";
+  document.body.appendChild(playButton);
+  
+  playButton.addEventListener('click', () => {
+    musica.play().then(() => {
+      console.log("Música começou a tocar!");
+      playButton.style.display = 'none';  // Esconde o botão depois de clicado
+    }).catch(e => {
+      console.log('Erro ao tentar tocar a música:', e);
+    });
+  });
+});
+
   window.addEventListener('load', function() {
   const musica = document.getElementById('musicaFundo');
   musica.play().catch(e => {
