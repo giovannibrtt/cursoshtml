@@ -123,6 +123,10 @@
   </style>
 </head>
 <body>
+  <audio id="musicaFundo" autoplay loop muted>
+  <source src="https://drive.google.com/uc?export=download&id=10slB-8Ah14IVHObMgdu79E7_WKPqyFyH">
+  Seu navegador não suporta áudio HTML5.
+</audio>
   <div class="balão">🎈</div>
   <div class="decoracao">🧸🍼💙</div>
   <div id="contador" class="contador"></div>
@@ -151,6 +155,13 @@
     <button type="submit">Enviar</button>
   </form>
  <script>
+   window.addEventListener('load', function() {
+  const musica = document.getElementById('musicaFundo');
+  musica.muted = false;
+  musica.play().catch(e => {
+    console.log('Autoplay bloqueado, aguardando interação do usuário...');
+  });
+});
 const limites = { P: 12, M: 25, G: 28, XG: 6 };
 let contagem = { P: 0, M: 0, G: 0, XG: 0 };
 
