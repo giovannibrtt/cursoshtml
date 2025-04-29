@@ -130,10 +130,9 @@
 </head>
 <body>
   <!-- Música de fundo -->
-  <audio autoplay loop>
-    <source src="./audio.mp3" type="audio/mp3">
-    Seu navegador não suporta o elemento de áudio.
-  </audio>
+  <audio id="musicaFundo" autoplay loop muted>
+  <source src="musica.mp3" type="audio/mp3">
+</audio>
 
   <div class="balão">🎈</div>
   <div class="decoracao">🧸🍼💙</div>
@@ -165,6 +164,13 @@
   
   <!-- O restante do seu código de JavaScript -->
   <script>
+    window.addEventListener('click', function _desbloquearAudio() {
+  const musica = document.getElementById('musicaFundo');
+  musica.muted = false;
+  musica.play().catch(()=>{}); 
+  // remove o listener para não ficar rodando sempre
+  window.removeEventListener('click', _desbloquearAudio);
+});
     const limites = { P: 12, M: 25, G: 28, XG: 6 };
     let contagem = { P: 0, M: 0, G: 0, XG: 0 };
 
