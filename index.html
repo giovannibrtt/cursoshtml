@@ -123,8 +123,8 @@
   </style>
 </head>
 <body>
-  <audio id="musicaFundo" autoplay loop muted>
- <source src="https://www.bensound.com/bensound-music/bensound-tenderness.mp3">
+  <audio id="musicaFundo" autoplay loop>
+  <source src="https://www.bensound.com/bensound-music/bensound-tenderness.mp3" type="audio/mp3">
 </audio>
   <div class="balão">🎈</div>
   <div class="decoracao">🧸🍼💙</div>
@@ -154,9 +154,8 @@
     <button type="submit">Enviar</button>
   </form>
  <script>
-   window.addEventListener('load', function() {
+  window.addEventListener('load', function() {
   const musica = document.getElementById('musicaFundo');
-  musica.muted = false;
   musica.play().catch(e => {
     console.log('Autoplay bloqueado, aguardando interação do usuário...');
   });
