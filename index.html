@@ -7,49 +7,50 @@
   <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600&display=swap" rel="stylesheet">
   <style>
     .opcao-ausente {
-  background-color: #ccc;
-  color: #333;
-  font-style: italic;
-}
+      background-color: #ccc;
+      color: #333;
+      font-style: italic;
+    }
     #contador {
-  font-size: 2rem;
-  font-weight: bold;
-  color: #5dade2;
-  background-color: #e0f7fa;
-  padding: 1rem 2rem;
-  border-radius: 1rem;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  text-align: center;
-  display: inline-block;
-  margin: 2rem auto;
-  transition: all 0.5s ease;
-}
+      font-size: 2rem;
+      font-weight: bold;
+      color: #5dade2;
+      background-color: #e0f7fa;
+      padding: 1rem 2rem;
+      border-radius: 1rem;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      text-align: center;
+      display: inline-block;
+      margin: 2rem auto;
+      transition: all 0.5s ease;
+    }
 
-#contador span {
-  display: block;
-  font-size: 3rem;
-  color: #3498db;
-  margin-top: 0.5rem;
-}
+    #contador span {
+      display: block;
+      font-size: 3rem;
+      color: #3498db;
+      margin-top: 0.5rem;
+    }
 
-#contador.saturado {
-  background-color: #f06292; /* Cor para quando o evento estiver no dia */
-  color: white;
-}
-    
+    #contador.saturado {
+      background-color: #f06292; /* Cor para quando o evento estiver no dia */
+      color: white;
+    }
+
     .balão {
-     position: absolute;
+      position: absolute;
       top: 50px;
-     left: 20%;
-     animation: flutuar 3s infinite alternate;
-     font-size: 2.5rem;
-     color: #f39c12;
-     } 
+      left: 20%;
+      animation: flutuar 3s infinite alternate;
+      font-size: 2.5rem;
+      color: #f39c12;
+    }
 
-@keyframes flutuar {
-  0% { transform: translateY(0); }
-  100% { transform: translateY(-30px); }
-}
+    @keyframes flutuar {
+      0% { transform: translateY(0); }
+      100% { transform: translateY(-30px); }
+    }
+
     body {
       font-family: 'Quicksand', sans-serif;
       padding: 2rem;
@@ -58,18 +59,21 @@
       background: linear-gradient(180deg, #e0f7fa, #ffffff);
       color: #4b4b4b;
     }
+
     h1 {
       text-align: center;
       color: #5dade2;
       font-size: 2.8rem;
       margin-bottom: 1.5rem;
     }
+
     h2 {
       text-align: center;
       color: #5dade2;
       font-size: 2.2rem;
       margin-bottom: 1.5rem;
     }
+
     form {
       background: #ffffff;
       border-radius: 1rem;
@@ -80,11 +84,13 @@
       gap: 1rem;
       border: 2px dashed #b3e5fc;
     }
+
     label {
       font-weight: 600;
       margin-bottom: 0.3rem;
       color: #0077b6;
     }
+
     input[type="text"], textarea {
       padding: 0.6rem;
       border: 1px solid #b2ebf2;
@@ -93,6 +99,7 @@
       box-sizing: border-box;
       background-color: #f1fafe;
     }
+
     .fralda-opcao {
       padding: 0.5rem 1rem;
       background-color: #d6f5fc;
@@ -102,6 +109,7 @@
       cursor: pointer;
       transition: background-color 0.3s;
     }
+
     .fralda-opcao:hover { background-color: #b3e5fc; }
     .selecionado { background-color: #81d4fa; font-weight: bold; }
     .riscado { text-decoration: line-through; color: gray; background-color: #f3f4f6; cursor: not-allowed; }
@@ -117,12 +125,16 @@
       transition: background-color 0.3s;
     }
     button:hover { background-color: #3498db; }
-    .decoracao { text-align: center; font-size: 2rem; margin-bottom: 1rem; 
-    
-    }
+    .decoracao { text-align: center; font-size: 2rem; margin-bottom: 1rem; }
   </style>
 </head>
 <body>
+  <!-- Música de fundo -->
+  <audio autoplay loop>
+    <source src="audio.mp3" type="audio/mp3">
+    Seu navegador não suporta o elemento de áudio.
+  </audio>
+
   <div class="balão">🎈</div>
   <div class="decoracao">🧸🍼💙</div>
   <div id="contador" class="contador"></div>
@@ -150,144 +162,114 @@
     <textarea id="recado" name="recado" rows="4"></textarea>
     <button type="submit">Enviar</button>
   </form>
- <script>
-const limites = { P: 12, M: 25, G: 28, XG: 6 };
-let contagem = { P: 0, M: 0, G: 0, XG: 0 };
+  
+  <!-- O restante do seu código de JavaScript -->
+  <script>
+    const limites = { P: 12, M: 25, G: 28, XG: 6 };
+    let contagem = { P: 0, M: 0, G: 0, XG: 0 };
 
-// URL para buscar as contagens da planilha
-const urlContagem = "https://script.google.com/macros/s/AKfycbxXWiXvEdfreSW0n9Y485H7vByQMU43QMK7PxTtlYyzN1fXEXbJl5vb1ToOJDaUBsKi/exec";
+    const urlContagem = "https://script.google.com/macros/s/AKfycbxXWiXvEdfreSW0n9Y485H7vByQMU43QMK7PxTtlYyzN1fXEXbJl5vb1ToOJDaUBsKi/exec";
+    const urlEnvio = "https://script.google.com/macros/s/AKfycbxXWiXvEdfreSW0n9Y485H7vByQMU43QMK7PxTtlYyzN1fXEXbJl5vb1ToOJDaUBsKi/exec";
 
-// URL para enviar o formulário
-const urlEnvio = "https://script.google.com/macros/s/AKfycbxXWiXvEdfreSW0n9Y485H7vByQMU43QMK7PxTtlYyzN1fXEXbJl5vb1ToOJDaUBsKi/exec";
-
-// Atualiza os contadores de fraldas na tela
-function atualizarContadores() {
-  for (let t in contagem) {
-    document.getElementById('cont-' + t).innerText = (${contagem[t]}/${limites[t]});
-    if (contagem[t] >= limites[t]) {
-      document.querySelectorAll('.fralda-opcao').forEach(x => {
-        if (x.textContent.includes(t)) {
-          x.classList.add('riscado');
+    function atualizarContadores() {
+      for (let t in contagem) {
+        document.getElementById('cont-' + t).innerText = `(${contagem[t]}/${limites[t]})`;
+        if (contagem[t] >= limites[t]) {
+          document.querySelectorAll('.fralda-opcao').forEach(x => {
+            if (x.textContent.includes(t)) {
+              x.classList.add('riscado');
+            }
+          });
         }
-      });
+      }
     }
-  }
-}
 
-// Carrega as contagens atuais do servidor
-function carregarContagemServidor() {
-  const timestamp = new Date().getTime(); // Garante requisição única
+    function carregarContagemServidor() {
+      const timestamp = new Date().getTime();
 
-  fetch(urlContagem + ?t=${timestamp})
-    .then(response => response.json())
-    .then(data => {
-      console.log("Contagem recebida do servidor:", data);
+      fetch(urlContagem + `?t=${timestamp}`)
+        .then(response => response.json())
+        .then(data => {
+          console.log("Contagem recebida do servidor:", data);
 
-      // Atualiza só depois de garantir que veio algo
-      if (data && typeof data === 'object') {
-        for (let t in data) {
-          contagem[t] = Number(data[t]) || 0;
-        }
-        atualizarContadores();
-      } else {
-        console.warn('Dados inesperados. Tentando novamente...');
-        setTimeout(carregarContagemServidor, 1000); // Tenta de novo em 1 segundo
-      }
-    })
-    .catch(error => {
-      console.error('Erro ao buscar contagem:', error);
-      setTimeout(carregarContagemServidor, 1000); // Em caso de erro, tenta de novo
-    });
-}
+          if (data && typeof data === 'object') {
+            for (let t in data) {
+              contagem[t] = Number(data[t]) || 0;
+            }
+            atualizarContadores();
+          } else {
+            console.warn('Dados inesperados. Tentando novamente...');
+            setTimeout(carregarContagemServidor, 1000);
+          }
+        })
+        .catch(error => {
+          console.error('Erro ao buscar contagem:', error);
+          setTimeout(carregarContagemServidor, 1000);
+        });
+    }
 
+    function selecionarFralda(el, t) {
+      if (t !== 'NAO_VAI' && contagem[t] >= limites[t]) return;
 
-
-// Função para selecionar a fralda
-function selecionarFralda(el, t) {
-  // Se não for "NAO_VAI", checa o limite
-  if (t !== 'NAO_VAI' && contagem[t] >= limites[t]) return;
-
-  // limpa seleção anterior e marca essa
-  document.querySelectorAll('.fralda-opcao').forEach(x => x.classList.remove('selecionado'));
-  el.classList.add('selecionado');
-
-  // guarda a escolha no hidden
-  document.getElementById('fraldaSelecionada').value = t;
-}
-
-// Quando o formulário for enviado
-document.getElementById('formulario').addEventListener('submit', e => {
-  e.preventDefault();
-  
-  const fraldaSelecionada = document.getElementById('fraldaSelecionada').value;
-  
-  // Permite "NAO_VAI" passar sem checar limite
-  if (!fraldaSelecionada || (fraldaSelecionada !== 'NAO_VAI' && contagem[fraldaSelecionada] >= limites[fraldaSelecionada])) {
-    alert('Selecione um tamanho válido.');
-    return;
-  }
-
-  // Atualiza a contagem e o contador
-  contagem[fraldaSelecionada]++;
-  atualizarContadores();
-
-  // Caso o limite da fralda seja atingido, risca a opção
-  if (contagem[fraldaSelecionada] >= limites[fraldaSelecionada]) {
-    document.querySelectorAll('.fralda-opcao').forEach(x => {
-      if (x.textContent.includes(fraldaSelecionada)) {
-        x.classList.add('riscado');
-      }
-    });
-  }
-
-  // Envia os dados para o Google Apps Script
-  const formData = new FormData(e.target);
-  const params = new URLSearchParams();
-  formData.forEach((value, key) => params.append(key, value));
-
-  fetch(urlEnvio, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-    body: params
-  })
-    .then(response => response.text())
-    .then(() => {
-      alert('Resposta enviada! Muito obrigado 💙');
-      e.target.reset();
-      document.getElementById('fraldaSelecionada').value = '';
       document.querySelectorAll('.fralda-opcao').forEach(x => x.classList.remove('selecionado'));
-    })
-    .catch(error => alert('Erro ao enviar: ' + error));
-});
+      el.classList.add('selecionado');
 
+      document.getElementById('fraldaSelecionada').value = t;
+    }
 
-// Contador de tempo para o evento
-const dataEvento = new Date('2025-06-08T00:00:00');
-const contador = document.getElementById('contador');
+    document.getElementById('formulario').addEventListener('submit', e => {
+      e.preventDefault();
+      const fraldaSelecionada = document.getElementById('fraldaSelecionada').value;
 
-function atualizarContagemEvento() {
-  const agora = new Date();
-  const tempoRestante = dataEvento - agora;
+      if (!fraldaSelecionada || (fraldaSelecionada !== 'NAO_VAI' && contagem[fraldaSelecionada] >= limites[fraldaSelecionada])) {
+        alert('Selecione um tamanho válido.');
+        return;
+      }
 
-  if (tempoRestante <= 0) {
-    contador.innerHTML = "É hoje! 🎉🍼";
-    contador.classList.add('saturado');
-    return;
-  }
+      const formData = new FormData(e.target);
+      const params = new URLSearchParams();
+      formData.forEach((value, key) => params.append(key, value));
 
-  const dias = Math.floor(tempoRestante / (1000 * 60 * 60 * 24));
-  const horas = Math.floor((tempoRestante % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-  const minutos = Math.floor((tempoRestante % (1000 * 60 * 60)) / (1000 * 60));
-  const segundos = Math.floor((tempoRestante % (1000 * 60)) / 1000);
+      fetch(urlEnvio, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: params
+      })
+        .then(response => response.text())
+        .then(() => {
+          alert('Resposta enviada! Muito obrigado 💙');
+          e.target.reset();
+          document.getElementById('fraldaSelecionada').value = '';
+          document.querySelectorAll('.fralda-opcao').forEach(x => x.classList.remove('selecionado'));
+        })
+        .catch(error => alert('Erro ao enviar: ' + error));
+    });
 
-  contador.innerHTML = Faltam ${dias}d ${horas}h ${minutos}m ${segundos}s para o chá do Henry!;
-}
+    const dataEvento = new Date('2025-06-08T00:00:00');
+    const contador = document.getElementById('contador');
 
-// Inicializações
-carregarContagemServidor();
-atualizarContadores();
-setInterval(atualizarContagemEvento, 1000);
-atualizarContagemEvento();
-</script>
+    function atualizarContagemEvento() {
+      const agora = new Date();
+      const tempoRestante = dataEvento - agora;
+
+      if (tempoRestante <= 0) {
+        contador.innerHTML = "É hoje! 🎉🍼";
+        contador.classList.add('saturado');
+        return;
+      }
+
+      const dias = Math.floor(tempoRestante / (1000 * 60 * 60 * 24));
+      const horas = Math.floor((tempoRestante % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutos = Math.floor((tempoRestante % (1000 * 60 * 60)) / (1000 * 60));
+      const segundos = Math.floor((tempoRestante % (1000 * 60)) / 1000);
+
+      contador.innerHTML = `Faltam ${dias}d ${horas}h ${minutos}m ${segundos}s para o chá do Henry!`;
+    }
+
+    carregarContagemServidor();
+    atualizarContadores();
+    setInterval(atualizarContagemEvento, 1000);
+    atualizarContagemEvento();
+  </script>
 </body>
 </html>
