@@ -6,6 +6,25 @@
   <title>Chá do Henry 🩵</title>
   <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600&display=swap" rel="stylesheet">
   <style>
+    #area-musica {
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+#area-musica button {
+  background-color: #f06292;
+  padding: 0.8rem 1.5rem;
+  border-radius: 1rem;
+  border: none;
+  color: white;
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+#area-musica button:hover {
+  background-color: #ec407a;
+}
     .opcao-ausente {
   background-color: #ccc;
   color: #333;
@@ -126,6 +145,7 @@
   <audio id="musicaFundo" loop>
   <source src="audio.mp3" type="audio/mp3">
 </audio>
+  <div id="area-musica"></div>
   <div class="balão">🎈</div>
   <div class="decoracao">🧸🍼💙</div>
   <div id="contador" class="contador"></div>
@@ -154,6 +174,8 @@
     <button type="submit">Enviar</button>
   </form>
  <script>
+   const areaMusica = document.getElementById('area-musica');
+areaMusica.appendChild(playButton);
    window.addEventListener('load', function() {
   const musica = document.getElementById('musicaFundo');
   
