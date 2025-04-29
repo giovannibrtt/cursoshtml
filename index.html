@@ -6,25 +6,6 @@
   <title>Chá do Henry 🩵</title>
   <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600&display=swap" rel="stylesheet">
   <style>
-    #area-musica {
-  text-align: center;
-  margin-bottom: 1rem;
-}
-
-#area-musica button {
-  background-color: #f06292;
-  padding: 0.8rem 1.5rem;
-  border-radius: 1rem;
-  border: none;
-  color: white;
-  font-size: 1.1rem;
-  cursor: pointer;
-  transition: background-color 0.3s;
-}
-
-#area-musica button:hover {
-  background-color: #ec407a;
-}
     .opcao-ausente {
   background-color: #ccc;
   color: #333;
@@ -142,15 +123,15 @@
   </style>
 </head>
 <body>
-  <audio id="musicaFundo" loop>
-  <source src="audio.mp3" type="audio/mp3">
+  <audio id="musicaFundo" autoplay loop muted>
+  <source src="https://drive.google.com/uc?export=download&id=10slB-8Ah14IVHObMgdu79E7_WKPqyFyH">
+  Seu navegador não suporta áudio HTML5.
 </audio>
   <div class="balão">🎈</div>
   <div class="decoracao">🧸🍼💙</div>
   <div id="contador" class="contador"></div>
 
   <h1>Chá do Henry 💙</h1>
-  <div id="area-musica"></div>
   <h2>08/06/2025</h2>
   <form id="formulario">
     <label for="nome">Seu nome!?</label>
@@ -174,28 +155,9 @@
     <button type="submit">Enviar</button>
   </form>
  <script>
-   const areaMusica = document.getElementById('area-musica');
-areaMusica.appendChild(playButton);
    window.addEventListener('load', function() {
   const musica = document.getElementById('musicaFundo');
-  
-  // Criar uma interação do usuário com a página para permitir a música
-  const playButton = document.createElement('button');
-  playButton.innerText = "Clique para ouvir a música!";
-  document.body.appendChild(playButton);
-  
-  playButton.addEventListener('click', () => {
-    musica.play().then(() => {
-      console.log("Música começou a tocar!");
-      playButton.style.display = 'none';  // Esconde o botão depois de clicado
-    }).catch(e => {
-      console.log('Erro ao tentar tocar a música:', e);
-    });
-  });
-});
-
-  window.addEventListener('load', function() {
-  const musica = document.getElementById('musicaFundo');
+  musica.muted = false;
   musica.play().catch(e => {
     console.log('Autoplay bloqueado, aguardando interação do usuário...');
   });
@@ -212,7 +174,7 @@ const urlEnvio = "https://script.google.com/macros/s/AKfycbxXWiXvEdfreSW0n9Y485H
 // Atualiza os contadores de fraldas na tela
 function atualizarContadores() {
   for (let t in contagem) {
-    document.getElementById('cont-' + t).innerText = `(${contagem[t]}/${limites[t]})`;
+    document.getElementById('cont-' + t).innerText = (${contagem[t]}/${limites[t]});
     if (contagem[t] >= limites[t]) {
       document.querySelectorAll('.fralda-opcao').forEach(x => {
         if (x.textContent.includes(t)) {
@@ -227,7 +189,7 @@ function atualizarContadores() {
 function carregarContagemServidor() {
   const timestamp = new Date().getTime(); // Garante requisição única
 
-  fetch(urlContagem + `?t=${timestamp}`)
+  fetch(urlContagem + ?t=${timestamp})
     .then(response => response.json())
     .then(data => {
       console.log("Contagem recebida do servidor:", data);
@@ -315,7 +277,7 @@ function atualizarContagemEvento() {
   const minutos = Math.floor((tempoRestante % (1000 * 60 * 60)) / (1000 * 60));
   const segundos = Math.floor((tempoRestante % (1000 * 60)) / 1000);
 
-  contador.innerHTML = `Faltam ${dias}d ${horas}h ${minutos}m ${segundos}s para o chá do Henry!`;
+  contador.innerHTML = Faltam ${dias}d ${horas}h ${minutos}m ${segundos}s para o chá do Henry!;
 }
 
 // Inicializações
