@@ -164,6 +164,10 @@
   
   <!-- O restante do seu código de JavaScript -->
   <script>
+    const playButton = document.createElement('button');
+playButton.id = 'btn-play-music';
+playButton.innerText = 'Ouvir trilha sonora 🎶';
+document.body.appendChild(playButton);
     window.addEventListener('click', function _desbloquearAudio() {
   const musica = document.getElementById('musicaFundo');
   musica.muted = false;
