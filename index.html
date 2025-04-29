@@ -260,36 +260,6 @@ document.getElementById('formulario').addEventListener('submit', e => {
     .catch(error => alert('Erro ao enviar: ' + error));
 });
 
-  
-  contagem[fraldaSelecionada]++;
-  atualizarContadores();
-  
-  if (contagem[fraldaSelecionada] >= limites[fraldaSelecionada]) {
-    document.querySelectorAll('.fralda-opcao').forEach(x => {
-      if (x.textContent.includes(fraldaSelecionada)) {
-        x.classList.add('riscado');
-      }
-    });
-  }
-
-  const formData = new FormData(e.target);
-  const params = new URLSearchParams();
-  formData.forEach((value, key) => params.append(key, value));
-
-  fetch(urlEnvio, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-    body: params
-  })
-    .then(response => response.text())
-    .then(() => {
-      alert('Resposta enviada! Muito obrigado 💙');
-      e.target.reset();
-      document.getElementById('fraldaSelecionada').value = '';
-      document.querySelectorAll('.fralda-opcao').forEach(x => x.classList.remove('selecionado'));
-    })
-    .catch(error => alert('Erro ao enviar: ' + error));
-});
 
 // Contador de tempo para o evento
 const dataEvento = new Date('2025-06-08T00:00:00');
