@@ -123,10 +123,6 @@
   </style>
 </head>
 <body>
-  <audio id="musicaFundo" autoplay loop muted>
-  <source src="https://drive.google.com/uc?export=download&id=10slB-8Ah14IVHObMgdu79E7_WKPqyFyH">
-  Seu navegador não suporta áudio HTML5.
-</audio>
   <div class="balão">🎈</div>
   <div class="decoracao">🧸🍼💙</div>
   <div id="contador" class="contador"></div>
@@ -147,7 +143,7 @@
       <div class="fralda-opcao" onclick="selecionarFralda(this,'M')">• Fralda M <span class="contador" id="cont-M">(0/18)</span></div>
       <div class="fralda-opcao" onclick="selecionarFralda(this,'G')">• Fralda G <span class="contador" id="cont-G">(0/18)</span></div>
       <div class="fralda-opcao" onclick="selecionarFralda(this,'XG')">• Fralda XG <span class="contador" id="cont-XG">(0/18)</span></div>
-      <div class="fralda-opcao opcao-ausente" onclick="selecionarFralda(this, 'NAO_VAI')">Não poderei ir</div>
+      <div class="fralda-opcao opcao-ausente" onclick="selecionarFralda(this, 'NAO_VAI')">Não irei poder ir</div>
     </div>
     <input type="hidden" id="fraldaSelecionada" name="fralda">
     <label for="recado">Deixe um recadinho para o Henry 💌👶:</label>
@@ -155,13 +151,6 @@
     <button type="submit">Enviar</button>
   </form>
  <script>
-   window.addEventListener('load', function() {
-  const musica = document.getElementById('musicaFundo');
-  musica.muted = false;
-  musica.play().catch(e => {
-    console.log('Autoplay bloqueado, aguardando interação do usuário...');
-  });
-});
 const limites = { P: 12, M: 25, G: 28, XG: 6 };
 let contagem = { P: 0, M: 0, G: 0, XG: 0 };
 
@@ -237,7 +226,6 @@ document.getElementById('formulario').addEventListener('submit', e => {
     alert('Selecione um tamanho válido.');
     return;
   }
-
   // Envia os dados para o Google Apps Script
   const formData = new FormData(e.target);
   const params = new URLSearchParams();
